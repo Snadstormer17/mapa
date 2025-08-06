@@ -3,14 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Obristan</title>
-  <style>
+<style>
+    @font-face {
+      font-family: 'NokiaHeadline';
+      src: url('NokiaPureHeadline-Light.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'NokiaText';
+      src: url('NokiaPureText-Light.ttf') format('truetype');
+    }
     body {
-      font-family: sans-serif;
+      font-family: NokiaText;
       line-height: 1.6;
       max-width: 800px;
       margin: 40px auto;
       padding: 0 1rem;
       color: #333;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'NokiaHeadline', sans-serif;
     }
 
     .flag {
@@ -75,4 +87,5 @@
 
 </body>
 </html>
+
 
