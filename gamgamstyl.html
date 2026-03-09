@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'Purista';
+    src: url('Purista-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.wiki-home {
+    font-family: 'Purista', sans-serif; /* Fallback to sans-serif if it fails to load */
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.fancy-title {
+    font-size: 3rem;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.button-group button {
+    font-family: 'Purista', sans-serif;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+    background-color: #005f9e;
+}
+
+.recent-pages {
+    text-align: left;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+<div class="wiki-home">
+    <h1 class="fancy-title">Welcome to the Wiki</h1>
+    
+    <div class="button-group">
+        <button onclick="goToRandomPage()">🎲 Random Page</button>
+        <button onclick="window.location.href='/map.html'">🗺️ View Map</button>
+    </div>
+
+    <div class="recent-pages">
+        <h2>Recently Edited Pages</h2>
+        <ul>
+            {% assign sorted_pages = site.pages | sort: "last_modified_at" | reverse %}
+            {% assign count = 0 %}
+            
+            {% for p in sorted_pages %}
+                {% if p.title and count < 5 %}
+                    <li>
+                        <a href="{{ p.url | relative_url }}">{{ p.title }}</a> 
+                        <small>({{ p.last_modified_at | date: "%B %d, %Y" }})</small>
+                    </li>
+                    {% assign count = count | plus: 1 %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Use Jekyll to generate a JavaScript array of all page URLs
+    const wikiPages = [
+        {% for p in site.pages %}
+            {% if p.title %}
+                "{{ p.url | relative_url }}"{% unless forloop.last %},{% endunless %}
+            {% endif %}
+        {% endfor %}
+    ];
+
+    function goToRandomPage() {
+        if (wikiPages.length === 0) {
+            alert("No pages found! Start writing some wiki entries.");
+            return;
+        }
+        // Pick a random URL from the array and redirect the browser
+        const randomIndex = Math.floor(Math.random() * wikiPages.length);
+        window.location.href = wikiPages[randomIndex];
+    }
+</script>
